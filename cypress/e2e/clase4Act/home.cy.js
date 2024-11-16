@@ -1,61 +1,24 @@
-describe('Algunos métodos',{testIsolation:false},()=>{
+describe('Métodos de Cypress', () => {
+    beforeEach(() => {
+      cy.visit('https://automationintesting.online/');
+    });
+  
+    it('Verificar que la información del hotel esté presente', () => {
+        cy.get('p').contains('Shady Meadows B&B');
+        cy.get('p').contains('The Old Farmhouse, Shady Street, Newfordburyshire, NE1 410S');
+        cy.get('p').contains('012345678901');
+        cy.get('p').contains('fake@fakeemail.com');
+    });
 
-    it('Visitar la página y verificar el título de la página',()=>{
+    it('Verificar de que haya al menos una imagen visible.', () => {
+        cy.get('.hotel-logoUrl').should('be.visible')
+        cy.get('.img-responsive.hotel-img').should('be.visible')
+    });
 
-        cy.visit('https://demoqa.com/')
-        cy.title().should('eq','DEMOQA')
-        
-    })
-
-    it('Ir al form',()=>{
-        cy.get('h5').contains('Elements').click()
-        cy.get('span').contains('Forms').click()
-        cy.get('span').contains('Practice Form').click()
-
-        // Validamos la imagen estpa visible
-        cy.get('img[src="/images/Toolsqa.jpg"]').should('be.visible')
-    })
-
-    it('Validar y completar form',()=>{
-
-        // Validar envío de form con campos vacíos
-        cy.get('#submit').click()
-        cy.get('#firstName:invalid').should('exist')
-        cy.get('#lastName:invalid').should('exist')
-
-        // Completar campos requeridos
-        cy.get('#firstName').type('Juan')
-        cy.get('#lastName').type('Perez')
-        cy.get('#genterWrapper > .col-md-9 > :nth-child(1) > .custom-control-label').click()
-        cy.get('#userNumber').type('1234567890')
-        cy.get('#dateOfBirthInput').click()
-        cy.get('.react-datepicker__day--013').click()
-
-        // Marcamos un check
-        cy.get('#hobbies-checkbox-1').check({force: true})
-
-        // Marcamos y desmarcamos un check
-        cy.get('#hobbies-checkbox-2').check({force: true})
-        cy.get('#hobbies-checkbox-2').uncheck({force: true})
-
-     
-
-        // Validamos que el input Select city está como disable
-        cy.get('#city').should('not.be.enabled')
-
-        // Seleccionamos un estado
-        cy.get('div').contains('Select State').click()
-        cy.get('#react-select-3-option-1').click()
-
-        // Enviamos el form y esperamos 2 segundos
-        cy.get('#submit').click()
-        cy.wait(2000)
-
-        // Validamos que el mensaje de envío de form se muestra correctamente
-        cy.get('#example-modal-sizes-title-lg').contains('Thanks for submitting the form').should('be.visible')
+    it('Confirma que el texto de la descripción del hotel sea el esperado', () => {
+        cy.get('p').contains('Welcome to Shady Meadows, a delightful Bed & Breakfast nestled in the hills on Newingtonfordburyshire. A place so beautiful you will never want to leave. All our rooms have comfortable beds and we provide breakfast from the locally sourced supermarket. It is a delightful place.');
+    });
 
 
-
-    })
-
-})
+  });
+  
