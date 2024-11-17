@@ -23,3 +23,22 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('fillContactForm', (name, email, phone, subject, message) => {
+    cy.get('input[placeholder="Name"]').type(name || '');
+    cy.get('input[placeholder="Email"]').type(email || '');
+    cy.get('input[placeholder="Phone"]').type(phone || '');
+    cy.get('input[placeholder="Subject"]').type(subject || '');
+    cy.get('[data-testid="ContactDescription"]').type(message || '');
+    cy.get('#submitContact').click();
+});
+
+Cypress.Commands.add('verifyErrorMessages', (messages) => {
+    messages.forEach((message) => {
+        cy.get('p').contains(message).should('be.visible');
+    });
+});
+
+Cypress.Commands.add('verifyAlert', (text) => {
+    cy.get('.alert').should('be.visible').and('contain', text);
+});
